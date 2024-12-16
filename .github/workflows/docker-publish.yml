@@ -47,7 +47,7 @@ jobs:
       - name: Test Kubernetes Connection
         run: |
           kubectl get nodes --kubeconfig=$PWD/kubeconfig
- # Replace the image in the Deployment YAML
+
       - name: Update Deployment Image
         run: |
           sed -i "s|image:.*|image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}|" k8s/deployment.yaml
@@ -58,4 +58,4 @@ jobs:
 
       - name: Apply Kubernetes Service (Manual Command)
         run: |
-          kubectl apply -f k8s/service.yaml --kubeconfig=$PWD/kubeconfig --validate=false
+          kubectl apply -f k8s/service.yaml --kubeconfig=$PWD/kubeconfig
