@@ -35,19 +35,19 @@ jobs:
 
       - name: Decode and Configure kubeconfig
         run: |
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
+          echo "${{ secrets.CONFIG_KUBE_SECRET }}" | base64 -d > kubeconfig
           export KUBECONFIG=$PWD/kubeconfig
 
       - name: Set Kubernetes Context
         uses: azure/k8s-set-context@v2
         with:
           method: kubeconfig
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+          kubeconfig: ${{ secrets.CONFIG_KUBE_SECRET }}
 
       - name: Apply Deployment
         run: |
           kubectl apply -f k8s/deployment.yaml --kubeconfig=$PWD/kubeconfig
 
-      - name: Apply Kubernetes Service (Manual Command)
+      - name: Apply Kubernetes Service
         run: |
           kubectl apply -f k8s/service.yaml --kubeconfig=$PWD/kubeconfig
