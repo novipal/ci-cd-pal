@@ -44,10 +44,6 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
-      - name: Update Deployment Image
-        run: |
-          sed -i "s|image:.*|image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}|" k8s/deployment.yaml
-
       - name: Apply Deployment
         run: |
           kubectl apply -f k8s/deployment.yaml --kubeconfig=$PWD/kubeconfig
